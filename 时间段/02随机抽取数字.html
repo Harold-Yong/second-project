@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		
+		 <!-- 初识计时器 -->
+		<!-- <!-- <script type="text/javascript">
+		 	function fn(){
+				document.write("hello world!<br />")
+			}
+			setInterval(fn,1000)
+		 </script> -->
+		 
+		 <!-- 随机抽取数字 -->
+		 <input type="text"  id="ipt" />
+		 <button id="start">开始</button>
+		 <button id="stop">结束</button>
+		 <script type="text/javascript">
+		 	var oTpt = document.getElementById("ipt")
+			var oStart = document.getElementById("start")
+			var oStop = document.getElementById("stop")
+			var timer = null
+			// 开始按钮
+			oStart.onclick = function(){
+				// 防止定时器bug
+				clearInterval(timer)
+				// 设计开始定时器
+				timer = setInterval(function(){
+					// 定义一个接受10到30的随机数
+					var tmath = getRandom(10,30)
+					oTpt.value = tmath
+				},100)
+			}
+			// 设计结束定时器
+			oStop.onclick = function(){
+				clearInterval(timer)
+			}
+			// 设置随机数
+			function getRandom(min,max){
+				return Math.floor(Math.random()*(max - min + 1) + min)
+			}
+		 </script>
+	</body>
+</html>

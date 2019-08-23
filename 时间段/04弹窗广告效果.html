@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		
+	</head>
+	<body style="padding: 0; margin: 0;">
+		<img src="imge/cc_kefu.png" style="width: 100%;">
+		<img id="img" src="imge/footer.png" style="width: 100%; position: fixed; bottom: 10px; display: none;">
+		<script type="text/javascript">
+			// 获取元素
+			var oImg = document.getElementById("img")
+			
+			// 设置网页刷新完成后5秒显示弹框
+			setTimeout(function(){
+				oImg.style.display = "block"
+				// 弹框出现两秒后消失
+				setTimeout(function(){
+					oImg.style.display = "none"
+				},2000)
+			},5000)
+		</script>
+	</body>
+</html>

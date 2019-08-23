@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box {
+				width: 150px;
+				height: 200px;
+				background: #1B6D85;
+				position: absolute;
+				left: 400px;
+				top: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box"></div>
+		<script type="text/javascript">
+			var oBox = document.getElementById("box")
+			oBox.onclick = function() {
+				oBox.style.left = 400 + "px"
+				oBox.style.top = 100 + "px"
+				waver(oBox,"left",function(){
+					waver(oBox,"top",function(){
+						alert("摆动结束！")
+					})
+				})
+			}
+
+			//封装的获取元素样式函数
+			function getStyle(obj, attr) {
+				return window.getComputedStyle ? getComputedStyle(obj)[attr] : obj.currentStyle[attr]
+			}
+
+			// 封装摆动函数
+			function waver(obj, direction, callback) {
+				var arr = []
+				var index = 0
+				for (var i = 30; i >= 0; i -= 3) {
+					arr.push(i, -i)
+				}
+				clearInterval(obj.timer)
+				obj.timer = setInterval(function() {
+					obj.style[direction] = parseInt(getStyle(obj, direction)) + arr[index] + "px"
+					index++
+					if (index === arr.length) {
+						clearInterval(obj.timer)
+						callback && callback()
+					}
+				}, 100)
+			}
+		</script>
+	</body>
+</html>

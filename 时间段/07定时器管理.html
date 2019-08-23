@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<button id="start">开始</button>
+		<button id="stop">结束</button>
+		<div id="box"></div>
+		<script type="text/javascript">
+			var oStart = document.getElementById("start")
+			var oStop = document.getElementById("stop")
+			var oBox = document.getElementById("box")
+			var timer = null
+			// 调用递归
+			oStart.onclick = second;
+			// 创建递归
+			function second(){
+				var date = new Date()
+				oBox.innerHTML = date.toLocaleString()
+				timer = setTimeout(second,1000)
+			}
+			// 点击结束按钮清除定时器
+			oStop.onclick = function(){
+				clearTimeout(timer)
+			}
+		</script>
+	</body>
+</html>

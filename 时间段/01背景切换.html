@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<!-- 图片地址：https://img.infinitynewtab.com/wallpaper/1001.jpg -->
+		<button id="start">背景切换</button>
+		<button id="stop">停止</button>
+		<script type="text/javascript">
+			var oStart = document.getElementById("start")
+			var oStop = document.getElementById("stop")
+			var timer = null
+			// 开始计时器
+			oStart.onclick = function(){
+				
+				clearInterval(timer)
+				// 设计定时器
+				timer = setInterval(function(){
+				var getMath = getRandom(1001,1999)
+				document.body.style.background = "url(https://img.infinitynewtab.com/wallpaper/1001.jpg)"
+				document.body.style.backgroundSize = "100%"
+				},1000)
+			}
+			
+			// 结束计时器
+			oStop.onclick = function(){
+				clearInterval(timer)
+			}
+			// 获取随机数
+			function getRandom(min,max){
+				return Math.floor(Math.random()*(max - min + 1) + min)
+			}
+		</script>
+	</body>
+</html>

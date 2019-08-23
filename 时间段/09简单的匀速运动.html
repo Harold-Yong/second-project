@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#box{
+				width: 100px;
+				height: 100px;
+				background: #1B6D85;
+				position: absolute;
+				left: 100px;
+			}
+		</style>
+	</head>
+	<body>
+		<button id="start">开始</button>
+		<div id="box"></div>
+		<script type="text/javascript">
+			var oStart = document.getElementById("start")
+			var oBox = document.getElementById("box")
+			
+			
+			oStart.onclick = function(){
+				move(oBox,10,500,"left",100,function(){
+					move(oBox,-10,0,"left")
+				})	
+			}
+			
+			// 封装匀速运动函数
+			function move(obj,step,target,direction,speed,callback){
+				// 给speed默认值
+				var speed = speed || 100
+				clearInterval(obj.timer)
+				obj.timer = setInterval(function(){
+				// 根据step的符号来判断方向  + 从左往右  - 从右往左
+					var attrValue = parseInt(getStyle(obj,direction)) + step
+					if((step > 0 && attrValue > target) || (step < 0 && attrValue < target)){
+						// +  attrValue就会一直曾长，会大于target
+						// -  attrValue就会一直减少，会小于target
+							attrValue = target
+						
+					}
+						obj.style[direction] = attrValue + "px"						
+					
+					
+					//添加一个目标点， 在500的时候停下来
+					//解决回退问题思路：让前面先把attrValue 设置成500
+					if(attrValue == target){
+						clearInterval(obj.timer)
+						// 如果运行完成,需要做一些操作,callback函数是等到运行结束以后在执行回调函数
+						callback && callback()
+					}
+				},speed)
+			}
+			
+			
+			// 封装匀速运动函数
+			function move(obj,step,target,direction,speed,callback){
+				// 给speed默认值
+				var speed = speed || 100
+				clearInterval(obj.timer)
+				obj.timer = setInterval(function(){
+				// 根据step的符号来判断方向  + 从左往右  - 从右往左
+					var attrValue = parseInt(getStyle(obj,direction)) + step
+					if((step > 0 && attrValue > target) || (step < 0 && attrValue < target)){
+						// +  attrValue就会一直曾长，会大于target
+						// -  attrValue就会一直减少，会小于target
+							attrValue = target
+						
+					}
+						obj.style[direction] = attrValue + "px"						
+					
+					
+					//添加一个目标点， 在500的时候停下来
+					//解决回退问题思路：让前面先把attrValue 设置成500
+					if(attrValue == target){
+						clearInterval(obj.timer)
+						// 如果运行完成,需要做一些操作,callback函数是等到运行结束以后在执行回调函数
+						callback && callback()
+					}
+				},speed)
+			}
+			
+			
+			//封装的获取元素样式函数
+			function getStyle(obj , attr){
+				return window.getComputedStyle ? getComputedStyle(obj)[attr] : obj.currentStyle[attr]
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<button id="btn">发送验证码</button>
+		<script type="text/javascript">
+			// 获取元素
+			var oBtn = document.getElementById("btn")
+			var timer = 5
+			// 设置按钮点击事件
+			oBtn.onclick = function(){
+				// 把按钮设置为不可用
+				this.disabled = true
+				// 调用递归函数
+				secondCode()
+			}
+			
+			// 设置递归功能函数
+			function secondCode(){
+				
+				oBtn.innerHTML = timer +"s后重发验证码"
+				
+				if(timer > 0){
+					setTimeout(secondCode,1000)
+					}else{
+						oBtn.disabled = false
+						oBtn.innerHTML = "发送验证码"
+						timer = 6
+					}
+				timer--
+			}
+		</script>
+	</body>
+</html>

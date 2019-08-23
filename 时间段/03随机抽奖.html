@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			/* 内部抽奖部分 */
+			#wrap {
+				width: 500px;
+				height: 500px;
+				margin: 50px auto;
+				border: 1px solid transparent;
+			}
+
+			#wrap #btn {
+				margin: 10px 200px;
+			}
+
+			#wrap #ul1 {
+				width: 303px;
+				height: 303px;
+				padding: 0;
+				border-top: 1px solid black;
+				border-left: 1px solid black;
+				margin: 20px auto;
+			}
+
+			#wrap li {
+				list-style: none;
+				width: 100px;
+				height: 100px;
+				float: left;
+				text-align: center;
+				line-height: 100px;
+				border-bottom: 1px solid black;
+				border-right: 1px solid black;
+			}
+
+			/* 中奖提示区 */
+			#tooltips{
+				width: 100%;
+				height: 100%;
+				background:rgba(0,0,0,0.5);
+				position: absolute;
+				top: 0;
+				z-index: 999;
+				display: none;
+			}
+			#tooltips #info{
+				width:400px;
+				height: 220px;
+				border: 1px solid transparent;
+				position: absolute;
+				top: 50px;
+				left: 420px;
+			}
+			#tooltips .title{
+				height: 30px;
+				text-align: center;
+				color: wheat;
+				line-height: 30px;
+				background: #1B6D85;
+			}
+			#tooltips #content{
+				height: 150px;
+				background: white;
+				text-align: center;
+				line-height: 50px;
+			}
+			#tooltips .btn{
+				height: 40px;
+				background: white;
+			}
+			#tooltips #confirm{
+				width: 50px;
+				height: 25px;
+				background: #269ABC;
+				color: #122B40;
+				margin-left: 330px;
+			}
+			#tooltips #confirm:hover{
+				background: #4CAE4C;
+				color: #761C19;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- 抽奖区 -->
+		<div id="wrap">
+			<button id="btn">开始抽奖</button>
+			<ul id="ul1">
+				<li>很遗憾</li>
+				<li>键盘</li>
+				<li>很遗憾</li>
+				<li>apple手机</li>
+				<li>很遗憾</li>
+				<li>迪拜10日游</li>
+				<li>很遗憾</li>
+				<li>500元</li>
+				<li>很遗憾</li>
+			</ul>
+		</div>
+		<!-- 中奖提示区 -->
+		<div id="tooltips">
+			<div id="info">
+				<div class="title">信息</div>
+				<div id="content">恭喜你，中奖了</div>
+				<div class="btn">
+					<button id="confirm">确定</button>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// 转盘区
+			var oBtn = document.getElementById("btn")
+			var aLi = document.getElementsByTagName("li")
+			// 弹框信息区
+			var oTooltips = document.getElementById("tooltips")
+			var oConfirm = document.getElementById("confirm")
+			var oContent= document.getElementById("content")
+			
+			// li的索引与定时器初始值
+			var indexInt = 0
+			var timer = null
+			
+			// 开始抽奖按钮事件
+			oBtn.onclick = function(){
+				// 抽奖按钮每次点击就清除之前定时器
+				clearInterval(timer)
+				indexInt = 0
+				
+				// 调用随机取数并设置循环三圈后抽取奖品
+				var randomInt = getInt(30,38)
+				
+				timer = setInterval(function(){
+					// 把定时器走过的地方变回白色
+					for(var i=0; i<aLi.length; i++){
+						aLi[i].style.background = "white"
+					}
+					
+					// 把定时器转动到的地方变成红色
+					aLi[indexInt % aLi.length].style.background = "red"
+					
+					// 设置转动盘到随机取数位置处弹出显示框
+					if(randomInt === indexInt){
+						clearInterval(timer)
+						if(aLi[indexInt%9].innerHTML === "很遗憾"){
+							oTooltips.style.display = "block"
+							oContent.innerHTML = aLi[indexInt%9].innerHTML
+						}else{
+							oTooltips.style.display = "block"
+							oContent.innerHTML = "恭喜你抽到"+aLi[indexInt%9].innerHTML
+						}
+					}
+					// 列表框索引自加
+					indexInt++
+					
+					
+				},100)
+				
+			}
+			// 设置信息框按钮点击信息框消失
+			oConfirm.onclick = function(){
+				oTooltips.style.display = "none"
+				aLi[indexInt % 9 - 1].style.background = "white"
+			}
+			
+			// 设计随机取数函数
+			function getInt(min,max){
+				return Math.floor(Math.random()*(max - min + 1) + min)
+			}
+		</script>
+	</body>
+</html>

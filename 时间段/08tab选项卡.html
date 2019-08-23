@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			#wrap{
+				width: 300px;
+				height: 400px;
+				margin: 0 auto;
+			}
+			#wrap button{
+				width: 75px;
+				border: none;
+				border-radius:0 ;
+				background: #1B6D85;
+				color: wheat;
+				float: left;
+				font-size: 18px;
+			}
+			#wrap .active{
+				background: #D43F3A;
+			}
+			#wrap div{
+				width: 300px;
+				height: 150px;
+				border: 1px solid black;
+				font-size: 18px;
+				box-sizing: border-box;
+				display: none;
+			}
+			#wrap div:nth-of-type(1){
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<button class="active">btn1</button>
+			<button>btn2</button>
+			<button>btn3</button>
+			<button>btn4</button>
+			<div>1111</div>
+			<div>2222</div>
+			<div>3333</div>
+			<div>4444</div>
+		</div>
+		<script type="text/javascript">
+			// 获取元素
+			var aBtn = document.getElementsByTagName("button")
+			// 在浏览器中找id为wrap的盒子
+			var oWrap = document.getElementById("wrap")
+			// 在oWrap盒子中获取全部div
+			var aDiv = oWrap.getElementsByTagName("div")
+			// 定义当前显示的选项卡下标(btn和div)
+			var nowIndex = 0
+			var timer = null
+			
+			// 以索引来为每个元素绑定事件
+			for(var i=0; i<aBtn.length; i++){
+				// 给每个btn加一个自定义的索引(下标)
+				aBtn[i].index = i
+				// 设置鼠标移入事件
+				aBtn[i].onmouseover = function(){
+					clearInterval(timer)
+					// 让每个btn和div变回原样
+					for(var j=0; j<aDiv.length; j++){
+						aDiv[j].style.display = "none"
+						aBtn[j].style.background = "#1B6D85"
+					}
+					
+					aDiv[this.index].style.display = "block"
+					this.style.background = "#D43F3A"
+				}	
+				// 移出是调用自动函数
+				aBtn[i].onmouseout = function(){
+					//移入的是0， nowIndex = 0
+					//移入的是1， nowIndex = 1
+					nowIndex = this.index
+					autoplay()
+				}
+
+			}
+			// 调用自动播放
+			autoplay()
+			
+			// 添加自动播放功能
+			function autoplay(){
+				timer = setInterval(function(){
+					nowIndex++
+					nowIndex %= aDiv.length
+					for(var j=0; j<aDiv.length; j++){
+						aDiv[j].style.display = "none"
+						aBtn[j].style.background = "#1B6D85"
+					}
+					aDiv[nowIndex].style.display = "block"
+					aBtn[nowIndex].style.background = "#D43F3A"
+				},1000)
+			}
+		</script>
+	</body>
+</html>

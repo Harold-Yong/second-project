@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<input type="text" id="ipt"/> 
+		<button type="button" id="btn">添加</button>
+		<ul>
+			<li>asd</li>
+			<li>asdx</li>
+		</ul>
+		<script type="text/javascript">
+			var oIpt = document.getElementById("ipt")
+			var oBtn = document.getElementById("btn")
+			// 后边加个索引0表示从上到下第一个ul
+			var oUl = document.getElementsByTagName("ul")[0]
+			
+			oBtn.onclick = function(){
+				var inputValue = oIpt.value
+				// 去创建一个li
+				var oLi = document.createElement("li")
+				// 给li添加内容
+				oLi.innerHTML = inputValue
+				// 吧li元素添加到ul中去
+				// console.log(oLi)
+				oUl.appendChild(oLi)
+			}
+			oIpt.onclick = function(){
+				// 让每次点击输入框的时候让输入框中的原始值清空
+				oIpt.value = ""
+			}
+			oUl.onclick = function(ev){
+				// 这里的ev.target就是被点击的那个Li
+				ev.target.style.color = "red"
+			}
+		</script>
+	</body>
+</html>
