@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>贪吃蛇</title>
+	</head>
+	<body>
+		<!-- 设计思路：
+				对象：地图、贪吃蛇、食物
+				流程：点击按钮 整个游戏开始运行
+				1、创建地图（div + 样式）
+				2、创建实物 （div + 样式）
+				3、创建贪吃蛇 （创建n个div）
+						设计贪吃蛇的数据结构：贪吃蛇初始化3个div，用一个数组去装这些div
+						snake.body {
+							{x的坐标 ， y的坐标， div对象}，
+							{x的坐标 ， y的坐标， div对象}，
+							{x的坐标 ， y的坐标， div对象}，
+						}
+				4、可以控制贪吃蛇的方向
+				5、可以吃掉食物赢的积分
+				6、可以结束掉游戏运行 -->
+		<button id="btn">开始</button>
+		<script type="text/javascript">
+			
+			function Map() {
+				//属性
+				this.width = 800;
+				this.height = 400;
+				this.position = 'relative';
+				this.bgColor = "#ccc";
+				this._map = null;
+				this._idName = 'map';
+			}
+			Map.prototype.init = function (){
+				//创建地图和 div ,给div 一些样式
+				this._map = document.createElement('div');
+				this._map.style.width = this.width + 'px';
+				this._map.style.height = this.height + 'px';
+				this._map.style.position = this.position;
+				this._map.style.backgroundColor = this.bgColor;
+				this._map.id = this._idName;
+				document.body.appendChild(this._map);
+				
+			};
+			
+			// 创建实物,创建一个div 设置样式 设置位置
+			function Food(){
+				this.width = 20;
+				this.height = 20;
+				this.position = "relative";
+				this.bgColor = "orange";
+				this.oFood = null;
+				this.x = 0;
+				this.y = 0;
+				this.map = document.getElementById('map');
+				
+			}
+			Food.prototype.init = function (){
+				// 创建Food
+				if(this.oFood == null) {
+					this.oFood = document.createElement('div');
+					this.oFood.style.width = this.width + 'px';
+					this.oFood.style.height = this.height + 'px';
+					this.oFood.style.position = this.position;
+					this.oFood.style.backgroundColor = this.bgColor;
+					this.map.appendChild(this.oFood);
+				}
+				// 如何让food 的位置随机变化 x:(0, 39)  y:(0, 19)
+				// 把地图人为的划定坐标
+				// 求出x 和 y 的随机坐标, 用随机坐标*20 就知道left和 top 值是多少
+				// 这样Left 和 top 就是随机的了
+				this.x = Math.floor(Math.random() * 40);
+				this.y = Math.floor(Math.random() * 20);
+				this.oFood.style.left = this.x * 20 + "px";
+				this.oFood.style.top = this.y * 20 + "px";
+			};
+			
+			// 创建出贪吃蛇的构造函数
+			function Snake(food){
+				this.width = 20;
+				this.height = 20;
+				this.position = "absolute";
+				this.map = document.getElementById('map');
+				this.direct = "right";
+				// 统计分数的变量
+				this.num = 0;
+				// 定义一个变量来装定时器
+				this.timer = null;
+				// 存储初始化的射身
+				this.body = [
+					// 蛇头
+					[ 3, 2, 'red', null],
+					[ 2, 2, 'blue', null],
+					[ 1, 2, 'blue', null]
+				]
+				// 存储食物对象
+				this.food = food;
+			}
+			
+			Snake.prototype.run = function(){
+				var that = this;
+				// 创建出贪吃蛇
+				this.show()
+				// 让射移动
+				this.timer = setInterval(function(){
+					that.move()
+				}, 1000)
+				
+				// 控制方向
+				document.onkeyup = function (ev){
+					// 根据按键来控制方向
+					var ev = ev || window.event;
+					that.setDirect(ev.keyCode)
+				}
+				
+			}
+			
+			Snake.prototype.show = function(){
+				// 具体创建写贪吃蛇的业务逻辑
+				for(var i = 0; i < this.body.length; i++){
+					// 判断蛇节的div 是否存在
+					if(this.body[i][3] == null){
+						// 在这里创建div 创建好的div放进 this.body[i][3]
+						this.body[i][3] = document.createElement('div');
+						this.body[i][3].style.width = this.width + 'px';
+						this.body[i][3].style.height = this.height + 'px';
+						this.body[i][3].style.backgroundColor = this.body[i][2];
+						this.body[i][3].style.position = this.position;
+						this.map.appendChild(this.body[i][3]);
+					}
+					// 设置每个蛇节的位置
+					this.body[i][3].style.left = this.body[i][0] * 20 + "px";
+					this.body[i][3].style.top = this.body[i][1] * 20 + "px";
+				}
+			}
+			
+			// 创建蛇移动的方法
+			Snake.prototype.move = function(){
+				// 具体蛇要移动的业务代码
+				// 注意:蛇头控制方向,单独拿出来去增加
+				
+				// 从后往前设置
+				var len = this.body.length;
+				for(var i = len - 1; i>0; i--){
+					this.body[i][0] = this.body[i - 1][0];
+					this.body[i][1] = this.body[i - 1][1];
+				}
+				// 蛇移动方向
+				switch(this.direct){
+					case 'right':
+						this.body[0][0] += 1;
+						break;
+					case 'left':
+						this.body[0][0] -= 1;
+						break;
+					case 'up':
+						this.body[0][1] -= 1;
+						break;
+					case 'down':
+						this.body[0][1] += 1;
+						break;
+				}
+				// 判断吃食物: 1 食物的位置需要发生变化  2 贪吃蛇长度要增加
+				if(this.body[0][0] === this.food.x && this.body[0][1] === this.food.y){
+					// 往蛇身添加蛇节
+					var len = this.body.length;
+					var x = this.body[len - 1][0];
+					var y = this.body[len - 1][1];
+					this.body.push([x, y, 'blue', null]);
+					this.num++;
+					document.title = this.num;
+					// 食物被吃掉了就要重新创建
+					this.food.init()
+				}
+				
+				// 判断是否结束
+				if(this.body[0][0] < 0 || this.body[0][0] > 39 || this.body[0][1] < 0 || this.body[0][1] > 19){
+					//停止移动
+					clearInterval(this.timer)
+					alert("游戏结束！");
+					return
+				}
+				
+				// 位置变化以后,还需要现实这条蛇
+				this.show();
+			}
+			
+			// 设置方向方法
+			Snake.prototype.setDirect = function (keycode) {
+				
+				switch(keycode){
+					case 40:
+						this.direct = "down";
+						break;
+					case 38:
+						this.direct = "up";
+						break;
+					case 37:
+						this.direct = "left";
+						break;
+					case 39:
+						this.direct = "right";
+						break;
+				}
+			}
+			
+			var oBtn = document.getElementById('btn');
+			oBtn.onclick = function (ev){
+				// 创建出一个地图实例
+				var map = new Map()
+				map.init();
+				// 创建一个食物实例
+				var food = new Food();
+				food.init()
+				
+				var snake = new Snake(food);
+				snake.run()
+			}
+			
+		</script>
+	</body>
+</html>
