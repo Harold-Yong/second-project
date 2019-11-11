@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="new_file.js" type="text/javascript"></script>
+		<style type="text/css">
+			li{
+				list-style: none;
+			}
+		</style>
+	</head>
+	<body>
+		<ul>
+			<li><button class="down">D</button>新闻标题6<button class="up">U</button></li>
+			<li><button class="down">D</button>新闻标题5<button class="up">U</button></li>
+			<li><button class="down">D</button>新闻标题4<button class="up">U</button></li>
+			<li><button class="down">D</button>新闻标题3<button class="up">U</button></li>
+			<li><button class="down">D</button>新闻标题2<button class="up">U</button></li>
+			<li><button class="down">D</button>新闻标题1<button class="up">U</button></li>
+		</ul>
+		<script type="text/javascript">
+			$(function(){
+				// 下去按钮
+				$(".down").click(function(){
+					// 点击当前按钮,找到当前按钮的li并使之插入到下一个li的后面
+					var $nowLi = $(this).closest("li")
+					var $nextLi = $(this).closest("li").next()
+					if($nextLi.length === 0){
+						alert("下面没有元素了！")
+					}
+					$nowLi.insertAfter($nextLi)
+				})
+				// 上去按钮
+				$(".up").click(function(){
+					var $nowLi = $(this).closest("li")
+					var $prevLi = $(this).closest("li").prev()
+					if($prevLi.length === 0){
+						alert("上边没有元素了!")
+					}
+					$nowLi.insertBefore($prevLi)
+				})
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,156 @@
+1、jquery是什么？
+	jquery本质上就是一个使用javascript封装的一个工具库
+	学习他封装的这些方法到底怎么使用 有哪些功能
+	
+2、jquery使用细节
+	a、引入方式
+		npm 安装   npm install jquery@版本
+		 找node_modules下面的文件 jquery/dist
+		在hbuilder 中新建一个jquery文件 然后引入
+		cdn的形式  加在别人服务器上的jquery文件
+		总结： 必须要引入一个jquery文件，可以是在本地或下载，也可以是别人服务器
+	b、 $ 函数 == jquery()
+	
+3、原生对象与jquery对象
+	注意：原生对象和JQUERY对象不能搞混
+	如：this.innerHTML == $("box").html()
+	a、原生对象不能使用jquery的方法 必须转换成jquery对象才能使用，但是可以使用原生方法
+	b、jquery对象只能使用jquery方法，不能使用原生的属性和方法
+	
+4、原生对象和jquery对象的转换
+	原生对象转换成jquery对象 只需要把 原生对象放在$函数里边	$(oBox)
+	jquery对象转换成原生对象 只需要加.get(下标)  如： $('#box').get(0)
+	
+5、代码书写位置
+	a、使用$函数必须要在jquery文件被引入之后
+	b、如果把代码写到要查找的html元素上，在原生js中需要执行一个onload的事件，
+		在jquery中的写法
+		$(function(){
+			$("#box").html("")
+		})
+		这种写法等价于原生写法中的 window.onload = function(){}
+6、jquery的选择器
+	选择器：查找元素的方法
+	注意：css选择器怎么使用 在jquery就怎么使用 
+		如：$("#box")  $("#box p")
+	id选择器			#+名称
+	类选择器			.+名称
+	标签选择器		标签名称
+	后代选择器		空格
+	子元素选择器		>
+	多元素选择器		,
+	
+	属性选择器		[]
+	//input标签属性带有value的会被设置边框为红色
+	$("input[value]").css("border","1px solid red")
+	//input标签属性值为password的会被选中
+	$("input[type=password]").css("border","1px solid red")
+	//* 包含 value中带有email关键字的会被选中
+	$("input[value*=email]").css("border","1px solid red")
+	// ^ 以。。。开头 value值中以user开头的会被选中
+	$("input[value^=user]").css("border","1px solid red")
+	// $ 以。。。结尾  value值中以nodeing结尾的会被选中
+	$("input[value$=nodeing]").css("border","1px solid red")
+	
+7、jquery选择器过滤
+	//选中li标签第一个 下标从0开始
+	$("li:first").css("color","red")
+	//选中li标签最后一个 下标从0开始
+	$("li:last").css("color","red")
+	//选中li标签为偶数的元素 下标从0开始
+	$("li:even").css("color","red")
+	//选中li标签为奇数的元素 下标从0开始
+	$("li:odd").css("color","red")
+	//选中li标签等于2的元素 下标从0开始
+	$("li:eq(2)").css("color","red")
+	//选中li标签小于2的元素 下标从0开始
+	$("li:lt(2)").css("color","red")
+	//选中li标签大于2的元素 下标从0开始
+	$("li:gt(2)").css("color","red")
+	// :not表示排除符合条件的
+	$("li:not(li:eq(2))").css("color","red")
+	
+8、jquery方法 (函数)
+	学习核心：函数名称  功能
+	a、添加类和删除类
+		.addClass()
+		.removeClass()
+		.toggleClass()    切换类 (有就删除，无就添加)
+		  
+	b、.html()和.text()	获取或设置相应的内容，.html()可以翻译标签 .text()不可以
+	c、css获取或设置样式
+		链式写法：
+		$("div").css("background","red").css("color","white")
+		传入一个对象，对象里可以写多条样式：
+		$("div").css({
+			"background":"red",
+			"color":"white";
+			...
+		})
+		
+	d、.each() 循环
+	e、.attr() , .prop() 设置或者获取属性	.removeAttr() , .removeProp() 删除属性
+	f、val 获取或者设置input的值  如果传入内容表示设置，如果为空表示获取
+	
+	dom操作相关的方法：
+		append			（在元素后添加）
+		appendTo		(添加在元素后)
+		prepend			（在元素前添加）
+		prependTo
+		特点：两个元素是父子关系
+		
+		after			
+		insertAfter		(把元素放在所有元素的后边)
+		before			
+		insertBefore	(把元素放在所有元素的前边)
+		特点：两个元素是兄弟关系
+		
+		index() 可以获取当前元素的下标
+		get()	可以获取到集合中的某个元素（把Jquery转成原生）
+		
+		.prev()  找到上一个兄弟元素，返回jqery对象
+		例：$(this).prev()    //可多次调用
+		.prevAll()		找到上面所有兄弟元素中的元素，可以传入过滤条件
+		例：$(this).prevAll("p")			//表示只找p标签
+		.next()		找到下一个兄弟元素
+		.nextAll()	找到下面所有的兄弟元素
+		.siblings()	找到所有的兄弟元素
+		
+		find()      找到指定元素
+		closest()	查找到相近父级元素
+		remove()    删除元素
+	
+9、事件绑定
+	a、直接绑定 click mouseover  mouseout
+	例：$("#box").mouseover(function(){事件})
+	b、on (同时绑定多个事件)
+	例：$("#box").on({
+		"click":function(){事件},
+		"mouseout":function(){事件}
+	})
+	或
+	$("#box").on("click mouseout",function(){事件})
+	事件删除：
+	$("#box").on("click mouseout",function(){
+		删除mouseout事件
+		$(this).off("mouseout")
+	})
+	
+10、事件委托
+	例:
+	// 点击li让字体变成红色
+	// 本来该li做的事情要委托给他的父亲ul来做
+	$("#ul1").on("click","li",function(){
+		$(this).css("color","red")
+	})
+11、阻止冒泡和默认行为
+	阻止冒泡：
+	.stopPropagation()
+	$("#box").click(function(ev){
+		//ev是事件对象
+		ev.stopPropagation()
+	})
+	
+	阻止默认行为：
+	.preventDefault()		用法同上
+	

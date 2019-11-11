@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="new_file.js" type="text/javascript"></script>
+	</head>
+	<body>
+		<!-- 兄弟元素间添加
+		 <button type="button">添加</button>
+		<script type="text/javascript">
+			$(function(){
+				$("button").click(function(){
+					var $btn = $("<button>xxx</button>")
+					 //.after() 往button按钮后边添加
+					 $(this).after($btn)
+					// 把btn添加到button按钮后边
+					 $btn.insertAfter($(this))
+					
+					// .before()在button按钮前边添加
+					 $(this).before($btn)
+					$btn.insertBefore($(this))
+				})
+			})
+		</script> -->
+		<!-- 添加元素第二种方法（父子元素间添加） -->
+		<input type="text"/>
+		<button>append</button>
+		<button>appendTo</button>
+		<button>prepend</button>
+		<button>prependTo</button>
+		<ul id="ul1">
+			<li>hello</li>
+		</ul>
+		<script type="text/javascript">
+			$(function(){
+				$("button:eq(0)").click(function(){
+					// val() 获取或者设置input的值
+					var $li = $("<li>"+$("input").val()+"</li>")
+					// 在ul1中去添加一个Li元素 (后添加)
+					$("#ul1").append($li)
+				})
+				
+				$("button:eq(1)").click(function(){
+					// val() 获取或者设置input的值
+					var $li = $("<li>"+$("input").val()+"</li>")
+					// 吧Li添加到ul中 (后添加)
+					$li.appendTo($("#ul1"))
+				})
+				
+				$("button:eq(2)").click(function(){
+					// val() 获取或者设置input的值
+					var $li = $("<li>"+$("input").val()+"</li>")
+					// 在ul1中去添加一个Li元素 (前添加)
+					$("#ul1").prepend($li)
+				})
+				
+				$("button:eq(3)").click(function(){
+					// val() 获取或者设置input的值
+					var $li = $("<li>"+$("input").val()+"</li>")
+					// 吧Li添加到ul中 (前添加)
+					$li.prependTo($("#ul1"))
+				})
+			})
+		</script>
+		
+	</body>
+</html>
